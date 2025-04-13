@@ -1,7 +1,7 @@
 package dev.projeto.integrador.ChassiWare.Usuarios.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.projeto.integrador.ChassiWare.Chassis.Model.ChassisModel;
+import dev.projeto.integrador.ChassiWare.chassis.model.ChassisModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "usuarios")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +27,7 @@ public class UsuarioModel {
     @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     @JsonIgnore
     private String senha;
 
