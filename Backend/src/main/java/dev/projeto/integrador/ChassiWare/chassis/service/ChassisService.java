@@ -37,6 +37,7 @@ public class ChassisService {
             ChassisModel chassi = optionalChassi.get();
             if (tipoMovimentacao.equals("entrada")) {
                 chassi.setEstoque(chassi.getEstoque() + quantidade);
+                return ResponseEntity.status(HttpStatus.OK).body("Estoque atualizado com sucesso");
             } else if (tipoMovimentacao.equals("saida")) {
                 Integer estoqueAtual = chassi.getEstoque();
                 if (estoqueAtual < quantidade) {
@@ -47,8 +48,10 @@ public class ChassisService {
                 }
             }
             chassisRepository.save(chassi);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Chassi não encontrado");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Chassi não encontrado");
+        return null;
     }
 
     public void deletarChassi(Long id) {
