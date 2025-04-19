@@ -13,9 +13,9 @@
       <h2 class="logo">ChassiWare</h2>
       <nav>
         <ul>
-          <li data-section="indicadores" class="ativo">📊 Indicadores</li>
-          <li data-section="chassi">🚗 Chassi</li>
-          <li data-section="empresa">🏢 Empresa</li>
+          <li data-section="chassi">Controle de Estoque</li>
+          <li data-section="empresa">Dados da Empresa</li>
+          <li data-section="cadastro">Cadastro</li>
         </ul>
       </nav>
     </aside>
@@ -23,131 +23,174 @@
     <!-- Conteúdo principal -->
     <div class="main">
       <header class="topbar">
-        <div class="abas">
-          <span class="aba ativo">Dashboard</span>
-        </div>
+        <div class="abas"></div>
         <div class="usuario" title="Perfil">
-          <span class="bolinha"></span>
         </div>
       </header>
 
       <section class="conteudo">
-        <!-- Indicadores -->
-        <div id="indicadores" class="section ativo">
-          <h1>Meus Indicadores</h1>
-          <div class="periodo">
-            <label>Período</label>
-            <input type="date" value="2025-03-01">
-            <span>até</span>
-            <input type="date" value="2025-03-31">
-            <button class="btn-periodo">Recalcular Período</button>
-          </div>
-          <div class="filtros-rapidos">
-            <button>1 DIA</button>
-            <button>15 DIAS</button>
-            <button class="ativo">30 DIAS</button>
-          </div>
-        </div>
 
-        <!-- Chassi -->
-        <div id="chassi" class="section">
-          <h1>Controle de Chassi</h1>
-          <div class="janela-chassi">
-            <form id="form-chassi">
-              <div class="linha">
-                <input type="text" placeholder="Código do Chassi" required />
-                <select required>
-                  <option value="">Tipo</option>
-                  <option value="Carro">Carro</option>
-                  <option value="Moto">Moto</option>
-                </select>
-                <input type="text" placeholder="Modelo" required />
-                <input type="number" placeholder="Ano" min="0" required />
-                <input type="number" placeholder="Estoque" min="0" required />
-              </div>
-              <div class="linha">
-                <select required>
-                  <option value="">Status</option>
-                  <option value="Ativo">Ativo</option>
-                  <option value="Inativo">Inativo</option>
-                </select>
-                <button type="submit">Cadastrar</button>
-                <button type="button">Pesquisar</button>
-              </div>
-            </form>
+<!-- Chassi -->
+<div id="chassi" class="section">
+  <h1>Listagem de Estoque</h1>
+  <div class="janela-chassi">
+    
+    <!-- Formulário de Entrada/Saída -->
+    <form id="form-movimentacao">
+      <div class="linha">
+        <select id="selecao-chassi" required>
+          <option value="">Selecione um item</option>
+          <!-- Opções serão preenchidas dinamicamente -->
+        </select>
+        <input type="number" id="quantidade-mov" placeholder="Quantidade" required />
 
-            <table>
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Tipo</th>
-                  <th>Modelo</th>
-                  <th>Ano</th>
-                  <th>Estoque</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="lista-chassis">
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <select id="tipo-movimentacao" required>
+          <option value="">Tipo</option>
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
+        
+        <button type="button" onclick="movimentarEstoque()">Confirmar</button>
+        
+      </div>
+    </form>
 
-        <!-- Empresa -->
-        <div id="empresa" class="section">
-            <h1>Informações da Empresa</h1>
-          
-            <!-- Bloco fixo dos dados da empresa -->
-            <div class="card">
-              <div class="linha">
-                <input type="text" value="ChassiWare" readonly />
-                <input type="text" value="37.172.xxx/xxxx-xx" readonly />
-              </div>
-              <div class="linha">
-                <input type="text" value="Rua Ambrosinha Maria dos Santos, 230" readonly />
-                <input type="text" value="(15) 3267-xxxx" readonly />
-                <input type="email" value="contato@chassiware.com.br" readonly />
-              </div>
-            </div>
-          
-            <h2>Cadastro de Usuários</h2>
-          
-            <div class="card">
-              <form id="form-usuario">
-                <div class="linha">
-                  <input type="text" placeholder="Nome do Usuário" required />
-                  <input type="email" placeholder="E-mail" required />
-                  <input type="password" placeholder="Senha" required />
-                  <select required>
-                    <option value="">Tipo de Acesso</option>
-                    <option value="Administrador">Administrador</option>
-                    <option value="Operador">Operador</option>
-                  </select>
-                  <button type="submit">Cadastrar</button>
-                </div>
-              </form>
-            </div>
-          
-            <div class="card">
-              <table class="tabela-usuarios">
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Tipo de Acesso</th>
-                  </tr>
-                </thead>
-                <tbody id="lista-usuarios">
-                  <!-- Usuários cadastrados aparecerão aqui -->
-                </tbody>
-              </table>
-            </div>
-          </div>          
-        </div>
-      </section>
+    <!-- Tabela de Chassis -->
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Tipo</th>
+          <th>Modelo</th>
+          <th>Ano</th>
+          <th>Quantidade</th> <!-- Mostra Estoque na Tabela de Estoque -->
+          <th>Localização</th>
+        </tr>
+      </thead>
+      <tbody id="lista-chassis-estoque">
+        <!-- Os chassis cadastrados aparecem aqui -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Empresa -->
+<div id="empresa" class="section">
+  <h1>Dados da Empresa</h1>
+
+  <div class="card-empresa">
+    <div class="linha">
+      <input type="text" value="ChassiWare" readonly />
+      <input type="text" value="37.172.xxx/xxxx-xx" readonly />
+    </div>
+    <div class="linha">
+      <input type="text" value="Rua Ambrosinha Maria dos Santos, 230" readonly />
+      <input type="text" value="(15) 3267-xxxx" readonly />
+      <input type="email" value="contato@chassiware.com.br" readonly />
     </div>
   </div>
+</div>
 
-  <script src="dashbord.js"></script>
+
+
+<!-- Cadastro -->
+<div id="cadastro" class="section">
+  <h1>Cadastros</h1>
+
+  <!-- Botões para alternar entre os cadastros -->
+  <div class="botoes-cadastro">
+    <button type="button" onclick="mostrarCadastro('produto')">Cadastro de Produto</button>
+    <button type="button" onclick="mostrarCadastro('funcionario')">Cadastro de Funcionário</button>
+  </div>
+
+<!-- Área do Cadastro de Produto (Chassi) -->
+<!-- Área do Cadastro de Produto (Chassi) -->
+<div id="cadastro-produto" class="cadastro-aba card">
+  <h2>Cadastro de Produto</h2>
+  <form id="form-chassi">
+    <!-- Primeira linha -->
+    <div class="linha">
+      <input type="text" id="codigo" placeholder="Código do Chassi" required />
+      <select id="tipo" required>
+        <option value="">Tipo</option>
+        <option value="Carro">Carro</option>
+        <option value="Moto">Moto</option>
+        <option value="Caminhão">Caminhão</option>
+      </select>
+      <input type="text" id="modelo" placeholder="Modelo" required />
+      <input type="text" id="ano" placeholder="Ano de Fabricação" required />
+      <input type="text" id="fabricante" placeholder="Fabricante" required />
+    </div>
+
+    <!-- Linha com status + botão -->
+    <div class="linha status-cadastro">
+      <select id="localizacao" required>
+        <option value="">Localização</option>
+        <option value="corredor 1">Corredor 1</option>
+        <option value="corredor 2">Corredor 2</option>
+        <option value="corredor 3">Corredor 3</option>
+        <option value="corredor 4">Corredor 4</option>
+        <option value="corredor 5">Corredor 5</option>
+      </select>
+      <button type="submit">Cadastrar</button>
+    </div>
+  </form>
+
+  <!-- Tabela dos chassis agora DENTRO da div do produto -->
+  <table class="tabela-chassis-cadastro">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Tipo</th>
+        <th>Modelo</th>
+        <th>Ano de Fabricação</th>
+        <th>Fabricante</th>
+        <th>Localização</th>
+      </tr>
+    </thead>
+    <tbody id="lista-chassis-outros">
+      <!-- Os chassis cadastrados aparecem aqui -->
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Cadastro de Funcionário -->
+<div id="cadastro-funcionario" class="cadastro-aba card" style="display: none;">
+  <h2>Cadastro de Funcionário</h2>
+  <form id="form-usuario">
+    <!-- Primeira linha com os campos principais -->
+    <div class="linha">
+      <input type="text" id="nome-funcionario" placeholder="Nome do Funcionário" required />
+      <input type="email" id="email-funcionario" placeholder="E-mail" required />
+      <input type="password" id="senha-funcionario" placeholder="Senha" required />
+    </div>
+
+    <!-- Segunda linha com Cargo e Botão -->
+    <div class="linha">
+      <select id="acesso-funcionario" required>
+        <option value="">Cargo</option>
+        <option value="Administrador">Administrador</option>
+        <option value="Operador">Operador</option>
+      </select>
+      <button type="submit">Cadastrar</button>
+    </div>
+  </form>
+
+  <table class="tabela-usuarios">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Tipo de Acesso</th>
+      </tr>
+    </thead>
+    <tbody id="lista-usuarios">
+      <!-- Funcionários vão aparecer aqui -->
+    </tbody>
+  </table>
+</div>
+
+  <script src="dashbord.js" defer></script>
 </body>
 </html>

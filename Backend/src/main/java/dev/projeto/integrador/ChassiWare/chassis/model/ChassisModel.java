@@ -1,14 +1,10 @@
 package dev.projeto.integrador.ChassiWare.chassis.model;
 
-import dev.projeto.integrador.ChassiWare.Usuarios.Model.UsuarioModel;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "chassis")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChassisModel {
@@ -53,28 +49,28 @@ public class ChassisModel {
         this.ano = ano;
     }
 
-    public String getStatus() {
-        return status;
+    public String getFabricante() {
+        return fabricante;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
     }
 
-    public LocalDate getData() {
-        return data;
+    public String getLocalizacao() {
+        return localizacao;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 
-    public UsuarioModel getUsuario() {
-        return usuario;
+    public Integer getEstoque() {
+        return estoque;
     }
 
-    public void setUsuario(UsuarioModel usuario) {
-        this.usuario = usuario;
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
     }
 
     @Id
@@ -82,7 +78,7 @@ public class ChassisModel {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "codigo_chassi", unique = true)
+    @Column(name = "codigo", unique = true)
     private String codigo;
 
     @Column(name = "modelo")
@@ -94,12 +90,25 @@ public class ChassisModel {
     @Column(name = "ano")
     private Integer ano;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "fabricante")
+    private String fabricante;
 
-    private LocalDate data;
+    @Column(name = "localizacao")
+    private String localizacao;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private UsuarioModel usuario;
+    @Column(name = "estoque")
+    private Integer estoque;
+
+    @Override
+    public String toString() {
+        return "ChassisModel{" +
+                "id=" + id +
+                ", codigo='" + codigo + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", ano=" + ano +
+                ", fabricante='" + fabricante + '\'' +
+                ", localizacao='" + localizacao + '\'' +
+                '}';
+    }
 }

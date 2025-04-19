@@ -1,4 +1,4 @@
-package dev.projeto.integrador.ChassiWare.Usuarios.Controller;
+package dev.projeto.integrador.ChassiWare.usuarios.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

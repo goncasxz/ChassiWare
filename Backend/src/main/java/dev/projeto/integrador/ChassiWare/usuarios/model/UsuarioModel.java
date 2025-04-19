@@ -1,7 +1,6 @@
-package dev.projeto.integrador.ChassiWare.Usuarios.Model;
+package dev.projeto.integrador.ChassiWare.usuarios.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.projeto.integrador.ChassiWare.chassis.model.ChassisModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,11 +26,10 @@ public class UsuarioModel {
     @Column(unique = true)
     private String email;
 
+    @Column(name = "cargo")
+    private String cargo;
+
     @Column
     @JsonIgnore
     private String senha;
-
-    @OneToMany(mappedBy = "usuario")
-    @JsonIgnore
-    private List<ChassisModel> chassisList;
 }
