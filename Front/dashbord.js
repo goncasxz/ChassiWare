@@ -14,9 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Alternar entre cadastro de produto e funcionário
-  
-
   // Ativar seção Controle de Estoque ao iniciar
   document.getElementById("chassi").classList.add("ativo");
   document.querySelector('[data-section="chassi"]').classList.add("ativo");
@@ -77,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(error => console.error("Erro ao carregar chassis:", error));
   }
 
-  // Adicionar chassi na tabela de estoque e outros
   function adicionarChassiNaTabela(chassi) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -102,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
     listaChassisOutros.appendChild(trOutros);
   }
 
-  // Adicionar chassi no select para movimentação
   function adicionarChassiNoSelect(chassi) {
     const option = document.createElement("option");
     option.value = chassi.codigo;
@@ -110,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
     selecaoChassi.appendChild(option);
   }
 
-  // Cadastro de Usuário
+  // Cadastro de Usuário (com integração)
   const formUsuario = document.getElementById("form-usuario");
   const listaUsuarios = document.getElementById("lista-usuarios");
 
@@ -128,16 +123,47 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      const tr = document.createElement("tr");
-      [nome, email, acesso].forEach(valor => {
-        const td = document.createElement("td");
-        td.textContent = valor;
-        tr.appendChild(td);
-      });
+      const usuario = { nome, email, senha, cargo: acesso };
 
-      listaUsuarios.appendChild(tr);
-      formUsuario.reset();
+      fetch("http://localhost:8080/usuarios/adicionar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(usuario),
+      })
+        .then(res => res.json())
+        .then(data => {
+          const tr = document.createElement("tr");
+          [data.nome, data.email, data.cargo].forEach(valor => {
+            const td = document.createElement("td");
+            td.textContent = valor;
+            tr.appendChild(td);
+          });
+          listaUsuarios.appendChild(tr);
+          formUsuario.reset();
+        })
+        .catch(error => {
+          console.error("Erro ao cadastrar usuário:", error);
+          alert("Erro ao cadastrar usuário.");
+        });
     });
+
+    // Listar usuários ao carregar
+    fetch("http://localhost:8080/usuarios/listar")
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(usuario => {
+          const tr = document.createElement("tr");
+          [usuario.nome, usuario.email, usuario.cargo].forEach(valor => {
+            const td = document.createElement("td");
+            td.textContent = valor;
+            tr.appendChild(td);
+          });
+          listaUsuarios.appendChild(tr);
+        });
+      })
+      .catch(error => console.error("Erro ao carregar usuários:", error));
   }
 
   // Filtros rápidos
@@ -173,7 +199,6 @@ window.movimentarEstoque = function () {
     return;
   }
 
-
   const movimentacao = {
     codigoChassi: codigo,
     quantidade,
@@ -187,10 +212,10 @@ window.movimentarEstoque = function () {
     },
     body: JSON.stringify(movimentacao),
   })
-    .then(res => res.text()) // Espera resposta no formato de mensagem
+    .then(res => res.text())
     .then((data) => {
       alert(data);
-      location.reload(); // Força o refresh da página
+      location.reload();
       document.getElementById("form-movimentacao").reset();
     })
     .catch(error => {
