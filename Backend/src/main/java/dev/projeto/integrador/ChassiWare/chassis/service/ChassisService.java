@@ -35,19 +35,20 @@ public class ChassisService {
 
         if (optionalChassi.isPresent()) {
             ChassisModel chassi = optionalChassi.get();
+            Integer estoqueAtual = chassi.getEstoque();
             if (tipoMovimentacao.equals("entrada")) {
-                chassi.setEstoque(chassi.getEstoque() + quantidade);
+                chassi.setEstoque(estoqueAtual + quantidade);
+                chassisRepository.save(chassi);
                 return ResponseEntity.status(HttpStatus.OK).body("Estoque atualizado com sucesso");
             } else if (tipoMovimentacao.equals("saida")) {
-                Integer estoqueAtual = chassi.getEstoque();
                 if (estoqueAtual < quantidade) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estoque menor que quantia de saida");
                 } else {
                     chassi.setEstoque(estoqueAtual - quantidade);
+                    chassisRepository.save(chassi);
                     return ResponseEntity.status(HttpStatus.OK).body("Estoque atualizado com sucesso");
                 }
             }
-            chassisRepository.save(chassi);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Chassi não encontrado");
         }

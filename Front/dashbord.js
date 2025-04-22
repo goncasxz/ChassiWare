@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Alternar entre seções (menu lateral)
+
   const menuItems = document.querySelectorAll(".sidebar li");
   const sections = document.querySelectorAll(".section");
 
@@ -14,11 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Ativar seção Controle de Estoque ao iniciar
+
   document.getElementById("chassi").classList.add("ativo");
   document.querySelector('[data-section="chassi"]').classList.add("ativo");
 
-  // Funções para cadastro de Chassi
+
   const formChassi = document.getElementById("form-chassi");
   const listaChassisEstoque = document.getElementById("lista-chassis-estoque");
   const listaChassisOutros = document.getElementById("lista-chassis-outros");
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Listar chassis ao carregar
+
     fetch("http://localhost:8080/chassis/listar")
       .then(res => res.json())
       .then(data => {
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
     selecaoChassi.appendChild(option);
   }
 
-  // Cadastro de Usuário (com integração)
+
   const formUsuario = document.getElementById("form-usuario");
   const listaUsuarios = document.getElementById("lista-usuarios");
 
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Listar usuários ao carregar
+
     fetch("http://localhost:8080/usuarios/listar")
       .then(res => res.json())
       .then(data => {
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(error => console.error("Erro ao carregar usuários:", error));
   }
 
-  // Filtros rápidos
+
   const botoesFiltro = document.querySelectorAll(".filtros-rapidos button");
   botoesFiltro.forEach(btn => {
     btn.addEventListener("click", () => {
